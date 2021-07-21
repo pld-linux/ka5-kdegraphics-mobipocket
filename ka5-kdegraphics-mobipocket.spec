@@ -27,6 +27,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Library to support mobipocket ebooks.
 
+%description -l pl.UTF-8
+Biblioteka do obsługi e-booków mobipocket.
+
 %package devel
 Summary:	Header files for %{kaname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kaname}
