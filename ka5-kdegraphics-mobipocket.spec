@@ -17,11 +17,10 @@ BuildRequires:	cmake >= 3.20
 BuildRequires:	gettext-tools
 BuildRequires:	kf5-extra-cmake-modules >= %{kf_ver}
 BuildRequires:	ninja
-BuildRequires:	qt5-build >= %{qtver}
-BuildRequires:	rpmbuild(macros) >= 1.164
+BuildRequires:	qt5-build >= %{qt_ver}
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-BuildRequires:	zlib-devel
 Requires:	Qt5Core >= %{qt_ver}
 Requires:	Qt5Gui >= %{qt_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
