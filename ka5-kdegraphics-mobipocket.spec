@@ -1,10 +1,5 @@
-#
-# Conditional build:
-%bcond_with	tests		# test suite
-
-%define		kdeappsver	23.08.5
-%define		kframever	5.94.0
-%define		qtver		5.15.2
+%define		kf_ver		5.94.0
+%define		qt_ver		5.15.2
 %define		kaname		kdegraphics-mobipocket
 Summary:	KDE graphics mobipocket library
 Summary(pl.UTF-8):	Biblioteka KDE graphics mobipocket
@@ -13,20 +8,22 @@ Version:	23.08.5
 Release:	1
 License:	GPL v2+
 Group:		X11/Libraries
-Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
+Source0:	https://download.kde.org/stable/release-service/%{version}/src/%{kaname}-%{version}.tar.xz
 # Source0-md5:	a66cbacedbd629fe9dd79fdd88a1e087
 URL:		https://kde.org/
-BuildRequires:	Qt5Core-devel >= %{qtver}
-BuildRequires:	Qt5Gui-devel
+BuildRequires:	Qt5Core-devel >= %{qt_ver}
+BuildRequires:	Qt5Gui-devel >= %{qt_ver}
 BuildRequires:	cmake >= 3.20
 BuildRequires:	gettext-tools
-BuildRequires:	kf5-kio-devel >= %{kframever}
+BuildRequires:	kf5-extra-cmake-modules >= %{kf_ver}
 BuildRequires:	ninja
 BuildRequires:	qt5-build >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
+Requires:	Qt5Core >= %{qt_ver}
+Requires:	Qt5Gui >= %{qt_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -40,6 +37,8 @@ Summary:	Header files for %{kaname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kaname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Core-devel >= %{qt_ver}
+Requires:	Qt5Gui-devel >= %{qt_ver}
 
 %description devel
 Header files for %{kaname} development.
@@ -54,15 +53,10 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 %cmake \
 	-B build \
 	-G Ninja \
-	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DHTML_INSTALL_DIR=%{_kdedocdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
 
 %ninja_build -C build
-
-%if %{with tests}
-ctest --test-dir build
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -77,11 +71,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%ghost %{_libdir}/libqmobipocket.so.2
 %attr(755,root,root) %{_libdir}/libqmobipocket.so.*.*.*
+%ghost %{_libdir}/libqmobipocket.so.2
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libqmobipocket.so
 %{_includedir}/QMobipocket
 %{_libdir}/cmake/QMobipocket
-%{_libdir}/libqmobipocket.so
